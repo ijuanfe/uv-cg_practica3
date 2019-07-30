@@ -1,9 +1,13 @@
 #ifndef LUZ_H
 #define LUZ_H
 
+#include <iostream>
+
 #define AGA_DIRECTIONAL 1
 #define AGA_POSITIONAL 2
 #define AGA_SPOT 3
+
+using namespace std;
 
 class Luz{
 

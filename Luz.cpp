@@ -17,7 +17,7 @@ void Luz::SetDefaultLight( ) {
 	id = -1;
 	switched = FALSE;
 	white = TRUE;
-	attenuation = FALSE; // Poner en true y calculñar la atenuación
+	attenuation = TRUE; // Poner en true y calculñar la atenuación
 	needsUpdate = TRUE;
 	intensity = 0.0f;
 	ambient[0] = intensity; //R
@@ -98,6 +98,7 @@ void Luz::SetLight( ) {
 		needsUpdate = FALSE;
 		glLightfv( lightId, GL_AMBIENT, ambient );
 		glLightfv( lightId, GL_DIFFUSE, diffuse );
+		cout << diffuse[0] << "-" << diffuse[1] << "-" << diffuse[2] << endl;
 		glLightfv( lightId, GL_SPECULAR, specular );
 		if( type == AGA_SPOT ) {
 			glLightf( lightId, GL_SPOT_EXPONENT, spotExponent );
@@ -160,6 +161,7 @@ void Luz::Acercar_Alejar_Luces( float step ) {
 	position[0] += vaX;
 	position[1] += vaY;
 	position[2] += vaZ;
+
 }
 
 void Luz::Rotar_Spot_Latitud( float inc ) {
@@ -181,3 +183,4 @@ void Luz::Rotar_Spot_Longitud( float inc ) {
 	spotDirection[0] = vIn[0];
 	spotDirection[2] = vIn[2];
 }
+

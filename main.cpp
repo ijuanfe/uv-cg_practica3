@@ -24,6 +24,9 @@ static Luz *LOCAL_MyLights[3];
 static int current_mode = 0;
 static int current_light = -1;
 
+void Mouse_Luces_Acercar_Alejar(int x, int y);
+void cambiar_intensidad( int color, float aumentar );
+
 void display(void) {
     float At[3];
     float Direction[3];
@@ -191,26 +194,37 @@ void mouse(int button, int state, int x, int y) {
     switch (button) {
 
         case GLUT_LEFT_BUTTON:
+            if(current_light > 0){
+                if (state == GLUT_DOWN){
+                    glutMotionFunc(Mouse_Luces_Acercar_Alejar);
+                }
+                if (state == GLUT_UP){
+                    glutPassiveMotionFunc(Mouse_Luces);
+                    glutMotionFunc(NULL);
+                }
 
-            switch (MiCamara->camMovimiento) {
+            }else{
 
-                case CAM_EXAMINAR:
-                    if (state == GLUT_DOWN)
-                        glutMotionFunc(Zoom);
-                    if (state == GLUT_UP) {
-                        glutPassiveMotionFunc(Examinar);
-                        glutMotionFunc(NULL);
-                    }
-                    break;
+                switch (MiCamara->camMovimiento) {
 
-                case CAM_PASEAR:
-                    if (state == GLUT_DOWN)
-                        glutMotionFunc(Andar);
-                    if (state == GLUT_UP)
-                        glutMotionFunc(NULL);
-                    break;
+                    case CAM_EXAMINAR:
+                        if (state == GLUT_DOWN)
+                            glutMotionFunc(Zoom);
+                        if (state == GLUT_UP) {
+                            glutPassiveMotionFunc(Examinar);
+                            glutMotionFunc(NULL);
+                        }
+                        break;
+
+                    case CAM_PASEAR:
+                        if (state == GLUT_DOWN)
+                            glutMotionFunc(Andar);
+                        if (state == GLUT_UP)
+                            glutMotionFunc(NULL);
+                        break;
+                }
             }
-
+            break;
         case GLUT_RIGHT_BUTTON:
             if (state == GLUT_DOWN)
                 //glutMotionFunc(scale);
@@ -249,6 +263,24 @@ void keyboard(unsigned char key, int x, int y) {
                     glDisable(GL_CULL_FACE);
                 else
                     glEnable(GL_CULL_FACE);
+                break;
+            case 'r':
+                cambiar_intensidad( 0, FALSE );
+                break;
+            case 'g':
+                cambiar_intensidad( 1, FALSE );
+                break;
+            case 'b':
+                cambiar_intensidad( 2, FALSE );
+                break;
+            case 'R':
+                cambiar_intensidad( 0, TRUE );
+                break;
+            case 'G':
+                cambiar_intensidad( 1, TRUE );
+                break;
+            case 'B':
+                cambiar_intensidad( 2, TRUE );
                 break;
             case '1':
                 glRotatef(1.0, 1., 0., 0.);
@@ -289,10 +321,16 @@ static void SpecialKey(int key, int x, int y) {
         case GLUT_KEY_F8:
             if (current_mode != 0 && current_mode != 7) break;
             current_mode = 7;
-            if (current_light == -1) glutPassiveMotionFunc(Mouse_Luces);
-            if (current_light != 2) current_light++;
-            else current_light = 0;
-            printf("Luz actual = %d\n",current_light);
+            if (current_light == -1){ 
+                glutPassiveMotionFunc(Mouse_Luces);
+            }
+            if (current_light != 2){ 
+                current_light++;
+            }else{
+                current_light = 0;
+            }
+            //printf("Luz actual = %d\n",current_light);
+            cout << "Luz ctual = " << current_light << endl;
             break;
         case GLUT_KEY_F9:
             if (current_light != -1){
@@ -399,3 +437,22 @@ int main(int argc, char** argv) {
     glutMainLoop();
     return 0;
 }
+
+void cambiar_intensidad( int color, float aumentar ){
+
+    //color
+    /**
+     * 0 = Rojo
+     * 1 = Verde
+     * 2 = Azul
+    */
+
+    if( LOCAL_MyLights[current_light]->diffuse[ color ] < 1 ){
+        
+        float dcolor = LOCAL_MyLights[current_light]->diffuse[ color ];
+        if( aumentar ) dcolor += 0.02f;
+        else dcolor -= 0.02f;
+        LOCAL_MyLights[current_light]->diffuse[ color ] = dcolor;
+        LOCAL_MyLights[current_light]->needsUpdate = TRUE;
+    }
+};
