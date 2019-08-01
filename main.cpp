@@ -41,7 +41,7 @@ void display(void) {
     LOCAL_MyLights[2]->SetLight( );
     
     glPushMatrix();
-    glColor3f(1.0, 0.0, 0.0);
+    glColor3f(1.0, 1.0, 1.0);
     drawSphereTurtle();
     glPopMatrix();
     
