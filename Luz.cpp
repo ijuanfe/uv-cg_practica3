@@ -23,8 +23,8 @@ void Luz::SetDefaultLight( ) {
 	ambient[0] = intensity; //R
 	ambient[1] = intensity; //G
 	ambient[2] = intensity; //B
-	ambient[3] = 1.0f; // 1 / r^2 Modificar
-	intensity = 0.8f;
+	ambient[3] = 1.0f; 
+	intensity = 0.8f; // 1 / r^2 Modificar
 	diffuse[0] = intensity;
 	diffuse[1] = intensity;
 	diffuse[2] = intensity;
@@ -98,7 +98,6 @@ void Luz::SetLight( ) {
 		needsUpdate = FALSE;
 		glLightfv( lightId, GL_AMBIENT, ambient );
 		glLightfv( lightId, GL_DIFFUSE, diffuse );
-		cout << diffuse[0] << "-" << diffuse[1] << "-" << diffuse[2] << endl;
 		glLightfv( lightId, GL_SPECULAR, specular );
 		if( type == AGA_SPOT ) {
 			glLightf( lightId, GL_SPOT_EXPONENT, spotExponent );
@@ -158,9 +157,15 @@ void Luz::Acercar_Alejar_Luces( float step ) {
 
 	if(modulo < 0.8f) return;
 
+	diffuse[0] = ( 1.0f / ( modulo*modulo ) );
+	diffuse[1] = ( 1.0f / ( modulo*modulo ) );
+	diffuse[2] = ( 1.0f / ( modulo*modulo ) );
+	
 	position[0] += vaX;
 	position[1] += vaY;
 	position[2] += vaZ;
+
+	needsUpdate = TRUE;
 
 }
 
