@@ -214,7 +214,7 @@ void mouse(int button, int state, int x, int y) {
     switch (button) {
 
         case GLUT_LEFT_BUTTON:
-            if(current_light > 0){
+            if(current_light >= 0){
                 if (state == GLUT_DOWN){
                     glutMotionFunc(Mouse_Luces_Acercar_Alejar);
                 }
@@ -440,7 +440,7 @@ int main(int argc, char** argv) {
 
     glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
     glutInitWindowSize(512, 512);
-    glutInitWindowPosition(20, 20);
+    glutInitWindowPosition(650, 250);
     glutCreateWindow("tortuga");
     glEnable(GL_COLOR_MATERIAL);
     
