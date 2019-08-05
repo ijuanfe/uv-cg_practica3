@@ -43,6 +43,26 @@ void display(void) {
     glPushMatrix();
     glColor3f(1.0, 1.0, 1.0);
     drawSphereTurtle();
+    
+    // Paralelo y meridiano: localiza la posición de la luz
+    // Luz direccional: vector dirigido siempre hacia el centro de la escena
+    switch( current_light ){
+        case 0:
+        case 1:
+        case 2:At[0] = LOCAL_MyLights[current_light]->position[0];
+        At[1] = LOCAL_MyLights[current_light]->position[1];
+        At[2] = LOCAL_MyLights[current_light]->position[2];
+        Direction[0] = - LOCAL_MyLights[current_light]->position[0];
+        Direction[1] = - LOCAL_MyLights[current_light]->position[1];
+        Direction[2] = - LOCAL_MyLights[current_light]->position[2];
+        Draw_Parallel(At);
+        Draw_Meridian(At);
+        Draw_Vector(At, Direction);
+        break;
+        default:
+        break;
+    }
+    
     glPopMatrix();
     
     glutSwapBuffers();
@@ -330,7 +350,7 @@ static void SpecialKey(int key, int x, int y) {
                 current_light = 0;
             }
             //printf("Luz actual = %d\n",current_light);
-            cout << "Luz ctual = " << current_light << endl;
+            cout << "Luz actual = " << current_light << endl;
             break;
         case GLUT_KEY_F9:
             if (current_light != -1){
