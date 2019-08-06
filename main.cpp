@@ -1,3 +1,15 @@
+/*
+    Escuela de Ingenieri­a de Sistemas y Computacion - Universidad del Valle
+    Asignatura: Computacion Grafica 750006M
+    Tema: Practica luz
+    Archivo: main.cpp
+    Version: 0.1
+    Fecha de creacion: 1 agosto 2019
+    Autores:   
+            Jeison Cardona Gomez        - 1325562
+            Juan Felipe Orozco Escobar  - 1426244
+*/
+
 //#include <stdarg.h>
 #include <GL/glut.h>
 #include "Camara.h"
@@ -466,13 +478,22 @@ void cambiar_intensidad( int color, float aumentar ){
      * 1 = Verde
      * 2 = Azul
     */
-
-    if( LOCAL_MyLights[current_light]->diffuse[ color ] < 1 ){
-        
-        float dcolor = LOCAL_MyLights[current_light]->diffuse[ color ];
-        if( aumentar ) dcolor += 0.02f;
-        else dcolor -= 0.02f;
-        LOCAL_MyLights[current_light]->diffuse[ color ] = dcolor;
-        LOCAL_MyLights[current_light]->needsUpdate = TRUE;
+    string aux_color = "";
+    if(color==0){
+        aux_color="Rojo";
+    }else if(color==1){
+        aux_color="Verde";
+    }else{
+        aux_color="Azul";
     }
+    
+    cout << "Intensidad color " << aux_color << ": " << LOCAL_MyLights[current_light]->diffuse[ color ] << endl; 
+    //if( LOCAL_MyLights[current_light]->diffuse[ color ] < 1 ){
+        
+    float dcolor = LOCAL_MyLights[current_light]->diffuse[ color ];
+    if( aumentar ) dcolor += 0.02f;
+    else dcolor -= 0.02f;
+    LOCAL_MyLights[current_light]->diffuse[ color ] = dcolor;
+    LOCAL_MyLights[current_light]->needsUpdate = TRUE;
+    //}
 };
